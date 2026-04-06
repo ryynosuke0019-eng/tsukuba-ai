@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>つくばAIパートナーズ | Tsukuba AI Partners</title>
+    <meta name="description" content="現場の声から始めるAI導入。中小企業に特化した低コスト・スピード対応のAIコンサルティング。">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           1. CSS Variables
+           ========================================= */
+        :root {
+            /* Theme Colors (単色) */
+            --primary: #005ce6;      /* サファイアブルー */
+            --primary-light: rgba(0, 92, 230, 0.08); /* アイコン背景用 (薄め) */
+            --primary-shape: rgba(0, 92, 230, 0.18); /* 背景図形用 (濃いめ) */
+            
+            --secondary: #9b51e0;    /* 明るめの紫 */
+            --secondary-light: rgba(155, 81, 224, 0.08); /* アイコン背景用 (薄め) */
+            --secondary-shape: rgba(155, 81, 224, 0.18); /* 背景図形用 (濃いめ) */
+            
+            /* Backgrounds & Text */
+            --bg-body: #FFFFFF;
+            --bg-section: #F8FAFC; 
+            --text-main: #0F172A; 
+            --text-muted: #475569;
+            
+            /* UI Elements */
+            --card-bg: #FFFFFF;
+            --card-border: 1px solid #E2E8F0;
+            --radius: 8px; 
+        }
+
+        /* =========================================
+           2. Reset & Base Styles
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+            position: relative;
+            z-index: 1; /* 背景図形より手前に配置 */
+        }
+
+        /* Typography */
+        .text-primary {
+            color: var(--primary);
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        p.large-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* =========================================
+           3. Decorational Shapes (背景図形)
+           ========================================= */
+        .shape {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .shape-circle-blue {
+            width: 800px; height: 800px;
+            background-color: var(--primary-shape); /* 視認できるよう濃い色を使用 */
+            border-radius: 50%;
+        }
+
+        .shape-circle-purple {
+            width: 500px; height: 500px;
+            background-color: var(--secondary-shape); /* 視認できるよう濃い色を使用 */
+            border-radius: 50%;
+        }
+
+        .bg-dots {
+            background-image: radial-gradient(var(--text-muted) 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.05;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* =========================================
+           4. UI Components
+           ========================================= */
+        .btn {
+            display: inline-block;
+            padding: 18px 48px;
+            background-color: var(--primary);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #004bbd;
+            transform: translateY(-2px);
+            color: #fff;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--text-main);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--text-main);
+            color: #fff;
+        }
+
+        /* =========================================
+           5. Layout Sections
+           ========================================= */
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 24px 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid transparent;
+            transition: padding 0.3s, border-bottom 0.3s;
+        }
+
+        nav.scrolled {
+            padding: 16px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        /* Hero Section */
+        #hero {
+            position: relative;
+            padding: 220px 0 140px;
+            background-color: var(--bg-body);
+        }
+
+        /* Hero背景図形 */
+        #hero .shape-circle-blue { top: -20%; right: -10%; }
+        #hero .shape-circle-purple { bottom: -10%; left: -5%; }
+
+        .hero-inner {
+            max-width: 1000px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.4rem);
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-weight: 500;
+            line-height: 1.8;
+            max-width: 700px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .section-padding { padding: 140px 0; position: relative; }
+        .bg-gray { background-color: var(--bg-section); }
+
+        /* Pain Points */
+        .pain-list {
+            margin: 4rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            max-width: 900px;
+        }
+
+        .pain-item {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-radius: var(--radius);
+            padding: 40px 48px;
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .pain-icon {
+            width: 64px; height: 64px;
+            background-color: var(--secondary-light);
+            color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .pain-item h4 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        /* Services */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-radius: var(--radius);
+            padding: 48px 40px;
+            transition: border-color 0.3s;
+        }
+
+        .service-card:hover { border-color: var(--primary); }
+
+        .service-icon {
+            width: 80px; height: 80px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 32px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        /* USE CASES */
+        .usecase-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 4rem;
+        }
+
+        .usecase-card {
+            background: #fff;
+            border-radius: var(--radius);
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .usecase-header {
+            background-color: var(--primary);
+            color: #fff;
+            padding: 32px 16px;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .usecase-header i {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .usecase-header h4 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .usecase-body {
+            padding: 32px 24px;
+            flex: 1;
+        }
+
+        .usecase-body ul li {
+            position: relative;
+            padding-left: 1.2em;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .usecase-body ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--text-muted);
+        }
+
+        /* How We Work */
+        .flow-wrapper { margin-top: 4rem; }
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        .flow-card {
+            flex: 1;
+            position: relative;
+            padding: 24px 0;
+            border-top: 3px solid #E2E8F0;
+        }
+
+        .flow-card:not(:last-child)::after {
+            content: '\f054';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: -24px;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #CBD5E1;
+        }
+
+        .flow-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 16px;
+            letter-spacing: -0.05em;
+        }
+
+        .flow-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        /* Pricing Banner */
+        .banner {
+            background-color: var(--primary);
+            color: #fff;
+            padding: 100px 5%;
+            border-radius: var(--radius);
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner::before {
+            content: ''; position: absolute; top: -50px; right: -50px;
+            width: 300px; height: 300px; border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .banner h2 { color: #fff; margin-bottom: 24px; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 900; }
+
+        /* About */
+        #about .shape-circle-purple { top: 10%; right: -10%; }
+        
+        .about-wrap {
+            display: flex;
+            gap: 64px;
+            align-items: flex-start;
+            margin-top: 4rem;
+        }
+
+        .about-info { flex: 1; }
+
+        .about-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-main);
+            color: #fff;
+            padding: 80px 0;
+        }
+
+        /* =========================================
+           6. Animation
+           ========================================= */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           7. Responsive
+           ========================================= */
+        @media (max-width: 992px) {
+            .service-grid, .usecase-grid { grid-template-columns: repeat(2, 1fr); }
+            .flow-container { flex-direction: column; gap: 24px; }
+            .flow-card { border-top: none; border-left: 3px solid #E2E8F0; padding: 0 0 0 24px; }
+            .flow-card:not(:last-child)::after {
+                content: '\f078';
+                top: auto; bottom: -20px; left: 24px; right: auto;
+                transform: translateX(-50%);
+            }
+            .about-wrap { flex-direction: column; gap: 32px; }
+            #hero { padding: 160px 0 100px; }
+        }
+
+        @media (max-width: 768px) {
+            .service-grid, .usecase-grid { grid-template-columns: 1fr; }
+            .pain-item { flex-direction: column; gap: 16px; padding: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#hero" class="logo" style="text-decoration:none; color:inherit; cursor:pointer; padding:8px 14px; border-radius:6px; transition:background .2s;" onmouseover="this.style.background='rgba(0,92,230,0.08)'" onmouseout="this.style.background='transparent'">つくばAIパートナーズ</a>
+            <a href="contact.html" class="btn" style="padding: 12px 24px; font-size: 1rem;">無料相談</a>
+        </div>
+    </nav>
+
+    <!-- 1. HERO -->
+    <section id="hero">
+        <div class="shape bg-dots"></div>
+        <div class="shape shape-circle-blue"></div>
+        <div class="shape shape-circle-purple"></div>
+        <div class="container">
+            <div class="hero-inner fade-up">
+                <h1 class="hero-title">AIで、御社の業務を<br><span class="text-primary">もっとシンプルに。</span></h1>
+                <p class="hero-subtitle">「何から始めればいいか分からない」という段階から、一緒に考えます。<br>現場を深く理解し、御社の業務に本当に合ったAI活用を、低コストで実現します。</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn">無料相談を予約する</a>
+                    <a href="#services" class="btn btn-outline">サービスを見る</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. PAIN POINTS -->
+    <section id="pain" class="section-padding bg-gray">
+        <div class="container">
+            <p class="section-subtitle fade-up">Problems</p>
+            <h2 class="section-title fade-up">こんなお悩み、ありませんか？</h2>
+            
+            <div class="pain-list">
+                <div class="pain-item fade-up">
+                    <div class="pain-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <div>
+                        <h4>「AIを導入したい」けど、何から手をつければいいか分からない</h4>
+                        <p class="large-text">良いとは聞くが、自社のどの業務に使えるのか、誰に相談すればいいのか、まったく見当がつかない。そのまま時間だけが過ぎていく。</p>
+                    </div>
+                </div>
+                <div class="pain-item fade-up">
+                    <div class="pain-icon"><i class="fa-regular fa-clock"></i></div>
+                    <div>
+                        <h4>毎日の業務に追われて、新しいことを試す余裕がない</h4>
+                        <p class="large-text">調べても、覚えても、現場に広める時間がない。「効率化のための作業」が増えるだけで、結局何も変わらない。</p>
+                    </div>
+                </div>
+                <div class="pain-item fade-up">
+                    <div class="pain-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <div>
+                        <h4>大手向けの高額なシステム導入は、うちには現実的でない</h4>
+                        <p class="large-text">数百万円のシステム開発や、専任チームが必要な仕組みは規模的に合わない。中小企業でも無理なく始められる選択肢を探している。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SERVICES -->
+    <section id="services" class="section-padding">
+        <div class="container">
+            <p class="section-subtitle fade-up">Our Services</p>
+            <h2 class="section-title fade-up">事業内容</h2>
+
+            <div class="service-grid">
+                <div class="service-card fade-up">
+                    <div class="service-icon"><i class="fa-regular fa-lightbulb"></i></div>
+                    <h3>生成AI導入<br>コンサルティング</h3>
+                    <p class="large-text">御社の業務フローを丁寧にヒアリングし、ChatGPTなどのAIを活用して「どこを・どう効率化できるか」の戦略から現場定着まで伴走支援します。</p>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon"><i class="fa-solid fa-code-branch"></i></div>
+                    <h3>業務自動化・<br>効率化支援</h3>
+                    <p class="large-text">毎日繰り返している手作業を、仕組みで自動化します。データ転記・通知送信・書類作成など、「人がやらなくていい作業」を徹底的になくし、本来の仕事に集中できる環境をつくります。</p>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="service-icon"><i class="fa-regular fa-comments"></i></div>
+                    <h3>AI活用研修・<br>個別指導</h3>
+                    <p class="large-text">「ツールを入れて終わり」にしません。PCに不慣れな方でも、実際に手を動かしながら使いこなせるようになる実践的でやさしい研修を提供します。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. USE CASES (部署別AI活用例) -->
+    <section id="use-cases" class="section-padding bg-gray">
+        <div class="container">
+            <p class="section-subtitle fade-up">Use Cases</p>
+            <h2 class="section-title fade-up">部署別のAI活用例</h2>
+            
+            <div class="usecase-grid">
+                <div class="usecase-card fade-up" style="transition-delay: 0.1s;">
+                    <div class="usecase-header">
+                        <i class="fa-solid fa-handshake"></i>
+                        <h4>営業・セールス</h4>
+                    </div>
+                    <div class="usecase-body">
+                        <ul>
+                            <li>商談後のお礼メール・提案書をAIが下書き。送るだけの状態にする</li>
+                            <li>「どう説明するか」に悩む時間をなくし、トークの質を均一化する</li>
+                            <li>過去の成功案件をナレッジ化し、新人でもすぐ動ける体制をつくる</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="usecase-card fade-up" style="transition-delay: 0.2s;">
+                    <div class="usecase-header">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h4>企画・マーケティング</h4>
+                    </div>
+                    <div class="usecase-body">
+                        <ul>
+                            <li>SNS投稿・広告文・メルマガの文章作成を大幅に時短する</li>
+                            <li>ターゲット別のメッセージ案をすぐに複数パターン出せるようにする</li>
+                            <li>アンケートや問い合わせデータを自動で整理し、施策に活かす</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="usecase-card fade-up" style="transition-delay: 0.3s;">
+                    <div class="usecase-header">
+                        <i class="fa-solid fa-users"></i>
+                        <h4>人事・総務・バックオフィス</h4>
+                    </div>
+                    <div class="usecase-body">
+                        <ul>
+                            <li>「同じ質問が何度も来る」をAIのFAQ対応で解消する</li>
+                            <li>就業規則・マニュアルの更新・整理をAIでスピードアップする</li>
+                            <li>勤怠・申請まわりのメール対応など定型作業を自動化する</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="usecase-card fade-up" style="transition-delay: 0.4s;">
+                    <div class="usecase-header">
+                        <i class="fa-solid fa-building-user"></i>
+                        <h4>現場・オペレーション</h4>
+                    </div>
+                    <div class="usecase-body">
+                        <ul>
+                            <li>毎日の日報・作業報告を入力するだけで自動で文章化する</li>
+                            <li>紙やExcelで管理している情報をデジタル化・検索可能にする</li>
+                            <li>「あの手順どこだっけ？」をなくすマニュアル整備を一気に進める</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. HOW WE WORK -->
+    <section id="how-we-work" class="section-padding">
+        <div class="container">
+            <p class="section-subtitle fade-up">Flow</p>
+            <h2 class="section-title fade-up">導入フロー</h2>
+
+            <div class="flow-wrapper">
+                <div class="flow-container">
+                    <div class="flow-card fade-up">
+                        <div class="flow-number">01</div>
+                        <h4>ヒアリング</h4>
+                        <p class="large-text">現状の課題と業務フローを徹底的に洗い出し、無駄を特定します。</p>
+                    </div>
+                    <div class="flow-card fade-up">
+                        <div class="flow-number">02</div>
+                        <h4>設計</h4>
+                        <p class="large-text">費用対効果が最も高く、現場の負担にならないAI・自動化プランをご提案します。</p>
+                    </div>
+                    <div class="flow-card fade-up">
+                        <div class="flow-number">03</div>
+                        <h4>実装</h4>
+                        <p class="large-text">スモールスタートで構築し、現場が迷わず使えるよう伴走しながら導入します。</p>
+                    </div>
+                    <div class="flow-card fade-up">
+                        <div class="flow-number">04</div>
+                        <h4>運用改善</h4>
+                        <p class="large-text">導入後も放置せず、利用データや現場の声を元に継続的な改善をサポートします。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PRICING TEASER -->
+    <section id="pricing" class="section-padding bg-gray">
+        <div class="container">
+            <div class="banner fade-up">
+                <p style="font-weight: 800; margin-bottom: 16px; color: rgba(255,255,255,0.8); font-size: 1.1rem; letter-spacing: 0.1em;">安心の料金体系</p>
+                <!-- 金額を外し、価値を伝えるコピーに変更 -->
+                <h2>自社の課題に合わせた<br>柔軟なプランをご提案します</h2>
+                <p class="large-text" style="margin: 0 auto 40px; max-width: 700px; color: rgba(255,255,255,0.9);">
+                    中小企業様に寄り添った、分かりやすく負担の少ない料金体系をご用意しています。<br>お見積りやご相談は完全無料です。
+                </p>
+                <a href="services.html" class="btn" style="background: #fff; color: var(--primary); margin-right: 16px;">サービス・料金を詳しく見る</a>
+                <a href="contact.html" class="btn" style="background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.6);">無料相談を予約する</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. ABOUT -->
+    <section id="about" class="section-padding">
+        <div class="shape shape-circle-purple"></div>
+        <div class="container">
+            <p class="section-subtitle fade-up">About Us</p>
+            <h2 class="section-title fade-up">会社概要</h2>
+
+            <div class="about-wrap fade-up">
+                <div class="about-info">
+                    <h3>つくばAIパートナーズ（TAP）</h3>
+                    <p style="font-weight: 700; color: var(--primary); margin-bottom: 24px; font-size: 1.1rem;">代表 / 廣瀬 龍之輔 (Ryunosuke Hirose)</p>
+                    <p class="large-text" style="margin-bottom: 16px;">
+                        2026年3月、茨城県つくば市にて創業。「誰もがAIを使いこなせる社会を実現する」をミッションに、つくば・東京を中心とした中小企業のDXを推進。
+                    </p>
+                    <p class="large-text">
+                        "最新のテクノロジー"と"現場目線の泥臭いサポート"を融合させ、お客様の事業成長に全力でコミットいたします。
+                    </p>
+                </div>
+                <div style="flex: 1; border: var(--card-border); padding: 40px; background: var(--card-bg); border-radius: var(--radius); width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                    <ul style="display: flex; flex-direction: column; gap: 20px; font-size: 1.1rem;">
+                        <li style="display: flex; border-bottom: 1px solid #E2E8F0; padding-bottom: 12px;">
+                            <span style="width: 120px; color: var(--text-muted); font-weight: 600;">設立</span>
+                            <span>2026年3月</span>
+                        </li>
+                        <li style="display: flex; border-bottom: 1px solid #E2E8F0; padding-bottom: 12px;">
+                            <span style="width: 120px; color: var(--text-muted); font-weight: 600;">所在地</span>
+                            <span>茨城県つくば市</span>
+                        </li>
+                        <li style="display: flex; border-bottom: 1px solid #E2E8F0; padding-bottom: 12px;">
+                            <span style="width: 120px; color: var(--text-muted); font-weight: 600;">代表者</span>
+                            <span>廣瀬 龍之輔</span>
+                        </li>
+                        <li style="display: flex;">
+                            <span style="width: 120px; color: var(--text-muted); font-weight: 600;">事業内容</span>
+                            <span>生成AI導入支援、業務自動化、AI研修</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. CONTACT CTA -->
+    <section id="contact" class="section-padding bg-gray" style="padding-bottom: 160px;">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title fade-up" style="margin-bottom: 24px;">「うちでもできるか？」<br>その疑問、60分で解消します。</h2>
+            <p class="large-text fade-up" style="margin-bottom: 48px;">費用も契約も不要。現状をお聞きするだけでOKです。<br>「何から始めればいいか分からない」という段階でも、ぜひお気軽にご相談ください。</p>
+            <div class="fade-up">
+                <a href="#" class="btn" style="padding: 24px 64px; font-size: 1.2rem;">無料相談を予約する</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container" style="text-align: center;">
+            <p style="font-weight: 900; font-size: 1.5rem; margin-bottom: 12px; color: #fff;">つくばAIパートナーズ</p>
+            <p style="margin-bottom: 32px; font-size: 1.1rem; color: rgba(255,255,255,0.7);">Powering SME Growth with AI</p>
+            <p style="color: rgba(255,255,255,0.5);">&copy; 2026 Tsukuba AI Partners. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // フェードインアニメーション
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ナビゲーションのスクロール検知
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
