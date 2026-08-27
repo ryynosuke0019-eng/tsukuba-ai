@@ -1,0 +1,8 @@
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">TAP logo</title>
+  <desc id="desc">TAP circular logo with blue, purple, violet, and magenta shapes.</desc>
+  <path d="M300 55C435.31 55 545 164.69 545 300H420C420 233.726 366.274 180 300 180V55Z" fill="#8A2BE2"/>
+  <path d="M55 300C55 164.69 164.69 55 300 55V180C233.726 180 180 233.726 180 300H55Z" fill="#0033FF"/>
+  <path d="M55 300H180C180 366.274 233.726 420 300 420V545C164.69 545 55 435.31 55 300Z" fill="#9D00FF"/>
+  <circle cx="300" cy="300" r="118" fill="#FF00FF"/>
+</svg>

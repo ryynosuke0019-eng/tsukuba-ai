@@ -1,0 +1,5 @@
+Contact: mailto:tsukubaaipartners@gmail.com
+Expires: 2027-08-27T00:00:00Z
+Preferred-Languages: ja, en
+Canonical: https://tsukuba-ai.com/.well-known/security.txt
+Policy: https://github.com/ryynosuke0019-eng/tsukuba-ai/security/policy

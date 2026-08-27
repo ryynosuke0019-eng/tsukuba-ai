@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.vercel/
+.wrangler/
+*.key
+*.pem
+*.p12
+*.pfx
+*.log
+.DS_Store
+Thumbs.db
